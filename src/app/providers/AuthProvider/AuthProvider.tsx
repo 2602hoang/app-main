@@ -13,8 +13,6 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   const [accessToken, setAccessToken] = useState<AccessToken>(undefined);
   const { data: session, update, status } = useSession();
   useEffect(() => {
-    console.log("🚀 ~ useEffect ~ session:", session);
-    let timeout: NodeJS.Timeout | undefined;
     if (
       status === "unauthenticated" ||
       session?.error === REFRESH_TOKEN_STATUS.FAILED
@@ -24,16 +22,20 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     if (status === "authenticated" && session?.accessToken) {
       setAccessToken(session.accessToken);
-      const expiredTime = +session.expires;
-      const currentTime = Date.now();
-      const timeDiff = expiredTime - currentTime;
-      !!timeout && clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        update();
-      }, timeDiff);
     }
+  }, [status, session?.accessToken]);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout | undefined = undefined;
+    !!timeout && clearTimeout(timeout);
+    const expiredTime = +(session?.expires ?? 0);
+    const currentTime = Date.now();
+    const timeDiff = Math.max(expiredTime - currentTime, 0);
+    timeout = setTimeout(() => {
+      update();
+    }, timeDiff);
     return () => clearTimeout(timeout);
-  }, [session?.accessToken, status, session?.error, session?.expires]);
+  }, [session?.expires]);
 
   const getProfile = async () => {
     const response = await axios.get(
@@ -51,6 +53,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     <AuthContext.Provider value={{ accessToken }}>
       <button onClick={getProfile}>get profile</button>
       {!!accessToken && children}
+      {/* <p className="text-red-500">{session?.refreshToken}</p> */}
       {!!accessToken && <button onClick={() => signOut()}>Sign out</button>}
       <button onClick={() => console.log(session)}>show session</button>
     </AuthContext.Provider>

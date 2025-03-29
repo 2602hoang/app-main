@@ -1,3 +1,4 @@
+import axios from "axios";
 import { REFRESH_TOKEN_STATUS } from "../type";
 
 const refreshTokenKeyloack = async (
@@ -7,27 +8,31 @@ const refreshTokenKeyloack = async (
   data: any;
 }> => {
   try {
-    const response = await fetch(
-      `${"https://sso.teknix.dev/realms/teknix-auth"}/protocol/openid-connect/token`,
+    const response = await axios.post(
+      `${"https://sso-dev.up.railway.app"}/v1/api/token/refresh-token`,
       {
-        method: "POST",
-        body: new URLSearchParams({
-          grant_type: "refresh_token",
-          client_id: "p2p",
-          client_secret: process.env.KEYCLOAK_CLIENT_SECRET || "",
-          refresh_token: token.refreshToken || "",
-        }),
-
+        client_id: "p2p",
+        refresh_token: token.refreshToken || "",
+      },
+      {
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "x-api-key": process.env.X_API_KEY || "",
         },
       }
     );
+    const data = await response;
+    if (data?.status === 200) {
+      return {
+        status: REFRESH_TOKEN_STATUS.SUCCESS,
+        data: data?.data?.data,
+      };
+    }
     return {
-      status: REFRESH_TOKEN_STATUS.SUCCESS,
-      data: await response.json(),
+      status: REFRESH_TOKEN_STATUS.FAILED,
+      data: null,
     };
-  } catch {
+  } catch (error) {
+    console.error("🚀 ~ refreshTokenKeyloack ~ error:", error);
     return {
       status: REFRESH_TOKEN_STATUS.FAILED,
       data: null,

@@ -16,23 +16,24 @@ const handler = NextAuth({
   },
   callbacks: {
     async jwt({ token, user, account }) {
-      console.log("🚀🚀🚀🚀🚀🚀🚀 ~ jwt ~ token:", token, user, account);
+      const preExpiredTime = 40000; // 40 seconds
       //The first time login
       if (account && user) {
+        const expiresAt = (account.expires_at ?? 0) * 1000;
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
-        token.expires = (account.expires_at ?? 0) * 1000;
+        token.expires = Math.max(expiresAt - preExpiredTime, 0);
       }
       //If the token is expired, refresh it
       if (Date.now() > +(token.expires ?? 0)) {
-        // const refreshResponse = await refreshTokenKeyloack(token);
         const refreshedTokens = await refreshTokenKeyloack(token);
-        console.log("🚀 ~ jwt ~ refreshedTokens:", refreshedTokens);
         if (refreshedTokens.status === REFRESH_TOKEN_STATUS.SUCCESS) {
           const data = refreshedTokens.data;
+          const expiresAt = data?.expires_in * 1000 + Date.now();
           token.accessToken = data?.access_token;
           token.refreshToken = data?.refresh_token;
-          token.expires = data?.expires_in * 1000 + Date.now();
+          token.expires = Math.max(expiresAt - preExpiredTime, 0);
+          token.error = "";
         }
         if (refreshedTokens.status === REFRESH_TOKEN_STATUS.FAILED) {
           token.error = REFRESH_TOKEN_STATUS.FAILED;
@@ -43,10 +44,9 @@ const handler = NextAuth({
     },
     async session({ session, token }: any) {
       if (token) {
-        const expiresAt = token.expires;
         session.accessToken = token.accessToken;
         session.refreshToken = token.refreshToken;
-        session.expires = Math.max(expiresAt - 60000, expiresAt); // 1 minute before expired
+        session.expires = token.expires;
         session.error = token.error;
       }
       return session;
