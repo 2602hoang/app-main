@@ -1,19 +1,46 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: "/blog/:path*",
-  //       destination: "http://localhost:3331/blog/:path*", // Blog App
-  //     },
-  //     {
-  //       source: "/shared-components/:path*",
-  //       destination: "http://localhost:4000/shared-components/:path*", // Blog App
-  //     },
-  //   ];
-  // },
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    domains: ["lh3.googleusercontent.com"],
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/:path*",
+        destination: "/:path*",
+      },
+      {
+        source: "/app-1/:path*",
+        destination: `${process.env.NEXT_PUBLIC_APP_1}/app-1/:path*`,
+      },
+      {
+        source: "/app-2/:path*",
+        destination: `${process.env.NEXT_PUBLIC_APP_2}/app-2/:path*`,
+      },
+      {
+        source: "/",
+        destination: process.env.NEXT_PUBLIC_MAIN,
+        has: [
+          {
+            type: "header",
+            key: "referer",
+            value: `${process.env.NEXT_PUBLIC_APP_1}`,
+          },
+        ],
+      },
+      {
+        source: "/",
+        destination: process.env.NEXT_PUBLIC_MAIN,
+        has: [
+          {
+            type: "header",
+            key: "referer",
+            value: `${process.env.NEXT_PUBLIC_APP_2}`,
+          },
+        ],
+      },
+    ];
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

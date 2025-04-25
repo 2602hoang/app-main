@@ -14,6 +14,8 @@ const getCookiesFromRequest = (req: NextRequest) => {
   }
   const loginObject = JSON.parse(login);
   const accessToken = loginObject.accessToken;
+  console.log("accessToken", accessToken);
+
   if (!accessToken) {
     return noLoginObject;
   }
