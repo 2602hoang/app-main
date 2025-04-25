@@ -3,7 +3,7 @@ export default function (app) {
   app.use(
     "/app-1",
     createProxyMiddleware({
-      target: "http://localhost:3001",
+      target: `${process.env.NEXT_PUBLIC_APP_1}`,
       changeOrigin: true,
       pathRewrite: {
         "^/app-1": "/",
@@ -13,7 +13,7 @@ export default function (app) {
   app.use(
     "/app-2",
     createProxyMiddleware({
-      target: "http://localhost:3002",
+      target: `${process.env.NEXT_PUBLIC_APP_2}`,
       changeOrigin: true,
       pathRewrite: {
         "^/app-2": "/",
