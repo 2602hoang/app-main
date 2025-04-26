@@ -10,8 +10,8 @@ const nextConfig = {
         destination: "/:path*",
       },
       {
-        source: `/${process.env.NEXT_NAME_APP1}/:path*`,
-        destination: `${process.env.NEXT_PUBLIC_APP_1}/${process.env.NEXT_NAME_APP1}/:path*`,
+        source: `/${process.env.NEXT_NAME_APP1}/${process.env.NEXT_NAME_APP1}/:path*`,
+        destination: `${process.env.NEXT_PUBLIC_APP_1}/${process.env.NEXT_NAME_APP1}/${process.env.NEXT_NAME_APP1}/:path*`,
       },
       {
         source: `/${process.env.NEXT_NAME_APP2}/:path*`,
@@ -19,12 +19,12 @@ const nextConfig = {
       },
       {
         source: "/",
-        destination: `${process.env.NEXT_PUBLIC_MAIN}/app-1/app-1`,
+        destination: `${process.env.NEXT_PUBLIC_MAIN}`,
         has: [
           {
             type: "header",
             key: "referer",
-            value: `${process.env.NEXT_PUBLIC_APP_1}/app-1`,
+            value: `${process.env.NEXT_PUBLIC_APP_1}`,
           },
         ],
       },
