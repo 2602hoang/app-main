@@ -19,12 +19,12 @@ const nextConfig = {
       },
       {
         source: "/",
-        destination: `${process.env.NEXT_PUBLIC_MAIN}/${process.env.NEXT_NAME_APP1}`,
+        destination: `${process.env.NEXT_PUBLIC_MAIN}`,
         has: [
           {
             type: "header",
             key: "referer",
-            value: `${process.env.NEXT_PUBLIC_APP_1}`,
+            value: `${process.env.NEXT_PUBLIC_APP_1}/app-1`,
           },
         ],
       },
