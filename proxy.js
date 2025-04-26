@@ -6,7 +6,7 @@ export default function (app) {
       target: `${process.env.NEXT_PUBLIC_APP_1}`,
       changeOrigin: true,
       pathRewrite: {
-        "^/": "/",
+        "^/app-1": "/",
       },
     })
   );
@@ -16,7 +16,7 @@ export default function (app) {
       target: `${process.env.NEXT_PUBLIC_APP_2}`,
       changeOrigin: true,
       pathRewrite: {
-        "^/": "/",
+        "^/app-2": "/",
       },
     })
   );
