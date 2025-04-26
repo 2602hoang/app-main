@@ -10,7 +10,7 @@ const nextConfig = {
         destination: "/:path*",
       },
       {
-        source: `/${process.env.NEXT_NAME_APP1}/${process.env.NEXT_NAME_APP1}/:path*`,
+        source: `/${process.env.NEXT_NAME_APP1}/:path*`,
         destination: `${process.env.NEXT_PUBLIC_APP_1}/${process.env.NEXT_NAME_APP1}/${process.env.NEXT_NAME_APP1}/:path*`,
       },
       {
