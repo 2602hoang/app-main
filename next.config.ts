@@ -19,7 +19,7 @@ const nextConfig = {
       },
       {
         source: "/",
-        destination: `${process.env.NEXT_PUBLIC_MAIN}`,
+        destination: `${process.env.NEXT_PUBLIC_MAIN}/app-1/app-1`,
         has: [
           {
             type: "header",
