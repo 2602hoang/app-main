@@ -30,7 +30,7 @@ const nextConfig = {
       },
       {
         source: "/",
-        destination: `https://app-main-test.vercel.app/app-2`,
+        destination: `https://app-main-test.vercel.app`,
         has: [
           {
             type: "header",
