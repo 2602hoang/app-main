@@ -11,31 +11,31 @@ const nextConfig = {
       },
       {
         source: `/app-1/:path*`,
-        destination: `${process.env.NEXT_PUBLIC_APP_1}${process.env.NEXT_NAME_APP1}/:path*`,
+        destination: `https://app-1-test.vercel.app/app-1/:path*`,
       },
       {
         source: `/app-2/:path*`,
-        destination: `${process.env.NEXT_PUBLIC_APP_2}${process.env.NEXT_NAME_APP2}/:path*`,
+        destination: `https://app-2-test.vercel.app/app-2/:path*`,
       },
       {
         source: "/",
-        destination: `${process.env.NEXT_PUBLIC_MAIN}`,
+        destination: `https://app-main-test.vercel.app/`,
         has: [
           {
             type: "header",
             key: "referer",
-            value: `${process.env.NEXT_PUBLIC_APP_1}`,
+            value: `https://app-1-test.vercel.app`,
           },
         ],
       },
       {
         source: "/",
-        destination: `${process.env.NEXT_PUBLIC_MAIN}`,
+        destination: `https://app-main-test.vercel.app/`,
         has: [
           {
             type: "header",
             key: "referer",
-            value: `${process.env.NEXT_PUBLIC_APP_2}`,
+            value: `https://app-2-test.vercel.app`,
           },
         ],
       },
