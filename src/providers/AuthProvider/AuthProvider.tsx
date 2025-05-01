@@ -35,8 +35,8 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       {!!accessToken && <button onClick={() => signOut()}>Sign out</button>}
       <button onClick={() => console.log(session)}>show session</button>
       <div className="flex flex-col justify-center items-center">
-        <a href="/app-1" > Go to app 1</a>
-        <a href="/app-2" > Go to app 2</a>
+        <a href="/app-1/home" > Go to app 1</a>
+        <a href="/app-2/home" > Go to app 2</a>
         </div>
     </AuthContext.Provider>
   );
