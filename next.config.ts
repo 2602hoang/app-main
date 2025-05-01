@@ -10,11 +10,11 @@ const nextConfig = {
         destination: "/:path*",
       },
       {
-        source: `/:path*`,
+        source: `/app-1/:path*`,
         destination: `https://app-1-test.vercel.app/app-1/:path*`,
       },
       {
-        source: `/:path*`,
+        source: `/app-2/:path*`,
         destination: `https://app-2-test.vercel.app/app-2/:path*`,
       },
       {
